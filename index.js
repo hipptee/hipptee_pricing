@@ -22,23 +22,6 @@ var shopURL = "hipptee.myshopify.com";
 const API_KEY = process.env.API_KEY;
 const PASSWORD = process.env.PASSWORD;
 
-// This is needed because Coinmarketcap uses bitcoin names, but you're using
-// the codes in the variant names.
-var coinCodes = {
-  "BTC" : "bitcoin",
-  "ETH" : "ethereum",
-  "DASH" : "dash",
-  "LTC" : "litecoin",
-  "DOGE" : "dogecoin",
-  "XMR" : "monero",
-  "XVG" : "verge",
-  "ZEC" : "zcash",
-  "NEO" : "neo",
-  "DGB" : "digibyte"
-  
-};
-
-
 // DETECT IF IT'S RUNNING ON LOCAL ENVIRONMENT OR HEROKU
 if (app.get('env') === 'development') {
   // Settings for local
