@@ -59,7 +59,7 @@ function getCryptoPrice(coinName, callback) {
   // Send an API request to coinmarketcap
   console.log('Getting ' + coinName + " price!");
   request({
-    url: "https://api.coinmarketcap.com/v1/ticker/" + coinName + "/?convert=CAD&limit=10",
+    url: "https://api.coinmarketcap.com/v2/ticker/99/",
     method: "GET",
     dataType: "json"
   }, function(err, resp) {
