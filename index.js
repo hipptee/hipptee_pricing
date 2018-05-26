@@ -1,27 +1,19 @@
-// **** Shopify Private App for Getting Crypto Prices
-// and Updating Product Prices in Shopify Store *****
-
 // INDEX.JS (MAIN FILE)
-
 // INSTALL DEPENDENCIES
 // All of these dependencies can be found on npmjs.com
 const express = require('express'); // Install request (jquery for node)
-const app = express();  // Establish the express app
+const app = express(); // Establish the express app
 var request = require('request'); // Library for making API calls
 var bodyParser = require('body-parser'); // For decoding JSON
 var schedule = require('node-schedule'); // For running cron jobs
 var cors = require('cors');
-
 app.use(cors());
 require('dotenv').config(); // Require local config file. .env files aren't publicly available so good for API Keys etc.
-
 var port = 3000;
 var shopURL = "hipptee.myshopify.com";
-
 // API CREDENTIALS FOR ACCESSING THE STORE (Need to update the .env file with your own private app credentials)
 const API_KEY = process.env.API_KEY;
 const PASSWORD = process.env.PASSWORD;
-
 // DETECT IF IT'S RUNNING ON LOCAL ENVIRONMENT OR HEROKU
 if (app.get('env') === 'development') {
   // Settings for local
@@ -39,7 +31,6 @@ function cryptoCron() {
   var timer = '* */5 * * * '; // 5 minute
   // var timer = '* * * * * 1'
 }
-  
 
 function getAllCryptoPrice(callback) {
   // FUNCTION TO GET CRYPTO PRICE.
@@ -47,9 +38,8 @@ function getAllCryptoPrice(callback) {
   // callback is what is done after the API all returns.
   // This function essentially returns the same data as if you were to visit this URL - https://api.coinmarketcap.com/v1/ticker/?convert=CAD&limit=10
   // The data it returns is an array of objects. Which means each cryptoprice is at a different index.
-
   request({
-    url : "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=100",
+    url: "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=100",
     method: "GET",
     dataType: "json"
   }, function(err, resp) {
@@ -67,9 +57,9 @@ function getCryptoPrice(coinName, callback) {
   // This function returns a specific crypto price by their id (case sensitive).
   // Valid values examples: bitcoin, ethereum, ripple etc
   // Send an API request to coinmarketcap
-  console.log('Getting ' + coinName + " price!" );
+  console.log('Getting ' + coinName + " price!");
   request({
-    url : "https://api.coinmarketcap.com/v1/ticker/" + coinName + "/?convert=CAD&limit=10",
+    url: "https://api.coinmarketcap.com/v1/ticker/" + coinName + "/?convert=CAD&limit=10",
     method: "GET",
     dataType: "json"
   }, function(err, resp) {
@@ -82,9 +72,6 @@ function getCryptoPrice(coinName, callback) {
     }
   });
 }
-
-
-
 // These are specific Routes you can use to see the data for yourself by visiting localhost:3000 followed by the route.
 app.get('/', function(req, res) {
   // Visiting this URL ('ie: localhost:3000') will display all crypto price data
@@ -94,14 +81,12 @@ app.get('/', function(req, res) {
     // data[1] = ethereum data
     // data[0].price_cad = bitcoin price in canadian
     // data[2].symbol = "XRP"
-
     // Because the data is returned in an array, this program assumes that Bitcoin
     // will always be priced the highest, and therefore the first in the array.
     // To be safe it would be smarter to loop over them all
     res.send(data);
   });
 });
-
 app.listen(port, function() {
   cryptoCron(); // Start running our cronJob
   console.log("Crypto App running on port: " + port);
